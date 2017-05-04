@@ -332,7 +332,7 @@ class AuthorCreateViewTest(TestCase):
         
         expected_initial_date = datetime.date(2016, 12, 10)
         response_date=resp.context['form'].initial['date_of_death']
-        response_date=datetime.datetime.strptime(response_date, "%Y-%m-%d").date()
+        response_date=datetime.datetime.strptime(response_date, "%m/%d/%Y").date()
         self.assertEqual(response_date, expected_initial_date )
         
     def test_redirects_to_detail_view_on_success(self):
