@@ -8,10 +8,11 @@ name = "pypi"
 [packages]
 
 dj-database-url = "*"
-Django = "*"
+django = "*"
 gunicorn = "*"
 "psycopg2" = "*"
 whitenoise = "*"
+unittest-xml-reporting = "*"
 
 
 [dev-packages]
