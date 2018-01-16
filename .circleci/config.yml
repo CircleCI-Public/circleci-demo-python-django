@@ -33,6 +33,6 @@ jobs:
       - store_test_results:
           path: test-results
       - store_artifacts:
-          path: test-reports/
+          path: test-results
           destination: tr1
 
