@@ -137,7 +137,7 @@ class Author(models.Model):
 
 class Car(models.Model):
     """
-    Demo car class
+    Demo car class, Yes
     """
     name = models.CharField(max_length=100)
 
