@@ -35,4 +35,23 @@ jobs:
       - store_artifacts:
           path: test-results
           destination: tr1
+  deploy:
+    working_directory: ~/circleci-demo-python-django
+    docker:
+      - image: circleci/python:3.6.4
+    steps:
+      - checkout
+      - run: echo "hello build"
+
+workflows:
+  version: 2
+  build-and-deploy:
+    jobs:
+      - build
+      - deploy:
+          requires:
+            - build
+          filters:
+            branches:
+              only: master
 
