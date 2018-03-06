@@ -136,6 +136,9 @@ class Author(models.Model):
         return '{0}, {1}'.format(self.last_name,self.first_name)
 
 class Car(models.Model):
+    """
+    Demo car class
+    """
     name = models.CharField(max_length=100)
 
     def __str__(self):
