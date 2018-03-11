@@ -134,3 +134,15 @@ class Author(models.Model):
         String for representing the Model object.
         """
         return '{0}, {1}'.format(self.last_name,self.first_name)
+
+class Car(models.Model):
+    """
+    Demo car class, Yes
+    """
+    name = models.CharField(max_length=100)
+
+    def __str__(self):
+        """
+        String for representing the Model object.
+        """
+        return self.name
