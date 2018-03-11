@@ -20,6 +20,7 @@ jobs:
       - run:
           command: |
             sudo pip install pipenv
+            sudo pip install awscli
             pipenv install
       - save_cache:
           key: deps9-{{ .Branch }}-{{ checksum "Pipfile.lock" }}
