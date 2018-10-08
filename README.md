@@ -16,7 +16,7 @@ You can follow along with this project by reading the [documentation](https://ci
 
 ## About the app: django_local_library
 
-Tutorial "Local Library" website written in Django. This is based on the excellent [MDN Django tutorial.](https://developer.mozilla.org/en-US/docs/Learn/Server-side/Django/Tutorial_local_library_website).
+Tutorial "Local Library" website written in Django. This is based on the excellent [MDN Django tutorial.](https://developer.mozilla.org/en-US/docs/Learn/Server-side/Django/Tutorial_local_library_website)
 
 ----
 
