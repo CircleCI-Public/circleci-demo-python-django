@@ -39,7 +39,7 @@
                 "sha256:52475f607c92035d4ac8fee284f56213065a4a6b25ed43f7e39df0e576e69e9f",
                 "sha256:d96b804be412a5125a594023ec524a2010a6ffa4d408e5482ab6ff3cb97ec12f"
             ],
-            "version": "==2.0.1"
+            "version": ">=2.0.8"
         },
         "gunicorn": {
             "hashes": [
