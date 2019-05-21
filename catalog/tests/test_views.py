@@ -221,7 +221,7 @@ class RenewBookInstancesViewTest(TestCase):
         resp = self.client.get(reverse('renew-book-librarian', kwargs={'pk':self.test_bookinstance1.pk,}) )
         
         #Manually check redirect (Can't use assertRedirect, because the redirect URL is unpredictable)
-        self.assertEqual( resp.status_code,302)
+        self.assertEqual( resp.status_code,403)
         self.assertTrue( resp.url.startswith('/accounts/login/') )
 
     def test_logged_in_with_permission_borrowed_book(self):
