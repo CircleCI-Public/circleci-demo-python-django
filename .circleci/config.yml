@@ -11,12 +11,16 @@ jobs:
         environment:
           POSTGRES_USER: root
           POSTGRES_DB: circle_test
+    context: TEST_CONTEXT
     steps:
       - checkout
       - run: sudo chown -R circleci:circleci /usr/local/bin
       - run: sudo chown -R circleci:circleci /usr/local/lib/python3.6/site-packages
       - restore_cache:
           key: deps9-{{ .Branch }}-{{ checksum "Pipfile.lock" }}
+      - run:
+          name: "echo env var"
+          command: echo $TEST_VARIABLE
       - run:
           command: |
             sudo pip install pipenv
