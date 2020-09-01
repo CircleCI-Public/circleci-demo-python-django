@@ -13,6 +13,8 @@ jobs:
       - python/install-deps
       - python/save-cache
       - run:
+          command: python3 manage.py shell
+      - run:
           command: pytest
           name: Test
 
