@@ -1,5 +1,6 @@
 asgiref==3.2.10
 attrs==20.1.0
+dj-database-url==0.5.0
 Django==3.1.1
 iniconfig==1.0.1
 more-itertools==8.5.0
