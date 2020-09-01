@@ -2,7 +2,7 @@ from django.contrib import admin
 
 # Register your models here.
 
-import models
+import Models
 
 """
 # Minimal registration of Models.
