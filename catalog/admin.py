@@ -2,7 +2,7 @@ from django.contrib import admin
 
 # Register your models here.
 
-from models import BookInstance, Book, Author, Genre, Language
+from . import models as BookInstance, Book, Author, Genre, Language
 
 """
 # Minimal registration of Models.
