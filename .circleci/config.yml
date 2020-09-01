@@ -7,13 +7,13 @@ orbs:
 jobs:
   build-and-test:
     executor: python/default
+    environment:
+      DJANGO_SETTINGS_MODULE: "locallibrary.settings"
     steps:
       - checkout
       - python/load-cache
       - python/install-deps
       - python/save-cache
-      - run:
-          command: python3 manage.py shell
       - run:
           command: pytest
           name: Test
