@@ -137,6 +137,7 @@ DATABASES['default'].update(db_from_env)
 # import Django and setup applications
 import django
 django.setup()
+settings.configure()
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.10/howto/static-files/
