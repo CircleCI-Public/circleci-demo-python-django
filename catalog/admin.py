@@ -13,8 +13,8 @@ admin.site.register(Genre)
 admin.site.register(Language)
 """
 
-admin.site.register(models.Genre)
-admin.site.register(models.Language)
+admin.site.register(Genre)
+admin.site.register(Language)
 
 class BooksInline(admin.TabularInline):
     """
@@ -23,7 +23,7 @@ class BooksInline(admin.TabularInline):
     model = Book
 
 
-@admin.register(models.Author)
+@admin.register(Author)
 class AuthorAdmin(admin.ModelAdmin):
     """
     Administration object for Author models. 
@@ -53,7 +53,7 @@ class BookAdmin(admin.ModelAdmin):
     list_display = ('title', 'author', 'display_genre')
     inlines = [BooksInstanceInline]
 
-admin.site.register(models.Book, BookAdmin)
+admin.site.register(Book, BookAdmin)
 
 
 @admin.register(BookInstance)
