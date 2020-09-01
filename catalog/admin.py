@@ -23,7 +23,7 @@ class BooksInline(admin.TabularInline):
     model = Book
 
 
-@admin.register(.models.Author)
+@admin.register(models.Author)
 class AuthorAdmin(admin.ModelAdmin):
     """
     Administration object for Author models. 
