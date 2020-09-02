@@ -2,7 +2,7 @@ from django.contrib import admin
 
 # Register your models here.
 
-from . import models as BookInstance, Book, Author, Genre, Language
+from .models import Author, Genre, Book, BookInstance, Language
 
 """
 # Minimal registration of Models.
@@ -41,7 +41,7 @@ class BooksInstanceInline(admin.TabularInline):
     """
     Defines format of inline book instance insertion (used in BookAdmin)
     """
-    model = models.BookInstance
+    model = BookInstance
 
 class BookAdmin(admin.ModelAdmin):
     """
