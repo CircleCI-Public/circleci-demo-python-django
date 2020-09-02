@@ -11,9 +11,11 @@ jobs:
       DJANGO_SETTINGS_MODULE: "locallibrary.settings"
     steps:
       - checkout
-      # - python/load-cache
+      - python/load-cache
+          key: v1
       - python/install-deps
-      # - python/save-cache
+      - python/save-cache
+          key: v1
       - run:
           command: python --version
       - run:
