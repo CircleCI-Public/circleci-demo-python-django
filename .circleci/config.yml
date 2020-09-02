@@ -12,10 +12,8 @@ jobs:
     steps:
       - checkout
       - python/load-cache
-          key: v1
       - python/install-deps
       - python/save-cache
-          key: v1
       - run:
           command: pytest
 
