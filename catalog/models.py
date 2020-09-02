@@ -70,7 +70,7 @@ class Book(models.Model):
 import uuid # Required for unique book instances
 from datetime import date
 
-from django.contrib.auth.models import User #Required to assign User as a borrower
+# from django.contrib.auth.models import User #Required to assign User as a borrower
 
 class BookInstance(models.Model):
     """
