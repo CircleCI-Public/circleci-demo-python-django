@@ -15,6 +15,12 @@ jobs:
       - python/install-deps
       - python/save-cache
       - run:
+          command: python --version
+      - run:
+          command: pytest --version
+      - run:
+          command: pytest
+      - run:
           command: python manage.py test
           name: Test
 
