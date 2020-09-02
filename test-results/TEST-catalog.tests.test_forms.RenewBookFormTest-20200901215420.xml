@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="catalog.tests.test_forms.RenewBookFormTest-20200901215420" tests="6" file="catalog/tests/test_forms.py" time="0.010" timestamp="2020-09-01T21:54:20" failures="0" errors="0" skipped="0">
+	<testcase classname="catalog.tests.test_forms.RenewBookFormTest" name="test_renew_form_date_field_help_text" time="0.006" timestamp="2020-09-01T21:54:20" file="catalog/tests/test_forms.py" line="56">
+		<!--
+        Test renewal_date help_text is as expected.
+        -->
+	</testcase>
+	<testcase classname="catalog.tests.test_forms.RenewBookFormTest" name="test_renew_form_date_field_label" time="0.001" timestamp="2020-09-01T21:54:20" file="catalog/tests/test_forms.py" line="48">
+		<!--
+        Test renewal_date label is "renewal date"
+        -->
+	</testcase>
+	<testcase classname="catalog.tests.test_forms.RenewBookFormTest" name="test_renew_form_date_in_past" time="0.001" timestamp="2020-09-01T21:54:20" file="catalog/tests/test_forms.py" line="11">
+		<!--
+        Test form is invalid if renewal_date is before today
+        -->
+	</testcase>
+	<testcase classname="catalog.tests.test_forms.RenewBookFormTest" name="test_renew_form_date_max" time="0.001" timestamp="2020-09-01T21:54:20" file="catalog/tests/test_forms.py" line="38">
+		<!--
+        Test form is valid if renewal_date is within 4 weeks
+        -->
+	</testcase>
+	<testcase classname="catalog.tests.test_forms.RenewBookFormTest" name="test_renew_form_date_today" time="0.001" timestamp="2020-09-01T21:54:20" file="catalog/tests/test_forms.py" line="29">
+		<!--
+        Test form is valid if renewal_date is today
+        -->
+	</testcase>
+	<testcase classname="catalog.tests.test_forms.RenewBookFormTest" name="test_renew_form_date_too_far_in_future" time="0.001" timestamp="2020-09-01T21:54:20" file="catalog/tests/test_forms.py" line="20">
+		<!--
+        Test form is invalid if renewal_date more than 4 weeks from today
+        -->
+	</testcase>
+</testsuite>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="catalog.tests.test_views.RenewBookInstancesViewTest-20200901215420" tests="10" file="catalog/tests/test_views.py" time="3.244" timestamp="2020-09-01T21:54:27" failures="0" errors="0" skipped="0">
+	<testcase classname="catalog.tests.test_views.RenewBookInstancesViewTest" name="test_HTTP404_for_invalid_book_if_logged_in" time="0.338" timestamp="2020-09-01T21:54:24" file="catalog/tests/test_views.py" line="279"/>
+	<testcase classname="catalog.tests.test_views.RenewBookInstancesViewTest" name="test_form_invalid_renewal_date_future" time="0.341" timestamp="2020-09-01T21:54:24" file="catalog/tests/test_views.py" line="265"/>
+	<testcase classname="catalog.tests.test_views.RenewBookInstancesViewTest" name="test_form_invalid_renewal_date_past" time="0.336" timestamp="2020-09-01T21:54:25" file="catalog/tests/test_views.py" line="257"/>
+	<testcase classname="catalog.tests.test_views.RenewBookInstancesViewTest" name="test_form_renewal_date_initially_has_date_three_weeks_in_future" time="0.330" timestamp="2020-09-01T21:54:25" file="catalog/tests/test_views.py" line="249"/>
+	<testcase classname="catalog.tests.test_views.RenewBookInstancesViewTest" name="test_logged_in_with_permission_another_users_borrowed_book" time="0.331" timestamp="2020-09-01T21:54:25" file="catalog/tests/test_views.py" line="234"/>
+	<testcase classname="catalog.tests.test_views.RenewBookInstancesViewTest" name="test_logged_in_with_permission_borrowed_book" time="0.330" timestamp="2020-09-01T21:54:26" file="catalog/tests/test_views.py" line="227"/>
+	<testcase classname="catalog.tests.test_views.RenewBookInstancesViewTest" name="test_redirect_if_logged_in_but_not_correct_permission" time="0.332" timestamp="2020-09-01T21:54:26" file="catalog/tests/test_views.py" line="219"/>
+	<testcase classname="catalog.tests.test_views.RenewBookInstancesViewTest" name="test_redirect_if_not_logged_in" time="0.223" timestamp="2020-09-01T21:54:26" file="catalog/tests/test_views.py" line="213"/>
+	<testcase classname="catalog.tests.test_views.RenewBookInstancesViewTest" name="test_redirects_to_all_borrowed_book_list_on_success" time="0.345" timestamp="2020-09-01T21:54:27" file="catalog/tests/test_views.py" line="273"/>
+	<testcase classname="catalog.tests.test_views.RenewBookInstancesViewTest" name="test_uses_correct_template" time="0.336" timestamp="2020-09-01T21:54:27" file="catalog/tests/test_views.py" line="241"/>
+</testsuite>

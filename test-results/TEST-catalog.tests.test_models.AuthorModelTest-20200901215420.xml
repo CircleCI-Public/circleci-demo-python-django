@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="catalog.tests.test_models.AuthorModelTest-20200901215420" tests="8" file="catalog/tests/test_models.py" time="0.017" timestamp="2020-09-01T21:54:20" failures="0" errors="0" skipped="0">
+	<testcase classname="catalog.tests.test_models.AuthorModelTest" name="test_date_of_birth_label" time="0.001" timestamp="2020-09-01T21:54:20" file="catalog/tests/test_models.py" line="24"/>
+	<testcase classname="catalog.tests.test_models.AuthorModelTest" name="test_date_of_death_label" time="0.001" timestamp="2020-09-01T21:54:20" file="catalog/tests/test_models.py" line="29"/>
+	<testcase classname="catalog.tests.test_models.AuthorModelTest" name="test_first_name_label" time="0.001" timestamp="2020-09-01T21:54:20" file="catalog/tests/test_models.py" line="14"/>
+	<testcase classname="catalog.tests.test_models.AuthorModelTest" name="test_first_name_max_length" time="0.001" timestamp="2020-09-01T21:54:20" file="catalog/tests/test_models.py" line="34"/>
+	<testcase classname="catalog.tests.test_models.AuthorModelTest" name="test_get_absolute_url" time="0.009" timestamp="2020-09-01T21:54:20" file="catalog/tests/test_models.py" line="51"/>
+	<testcase classname="catalog.tests.test_models.AuthorModelTest" name="test_last_name_label" time="0.001" timestamp="2020-09-01T21:54:20" file="catalog/tests/test_models.py" line="19"/>
+	<testcase classname="catalog.tests.test_models.AuthorModelTest" name="test_last_name_max_length" time="0.001" timestamp="2020-09-01T21:54:20" file="catalog/tests/test_models.py" line="39"/>
+	<testcase classname="catalog.tests.test_models.AuthorModelTest" name="test_object_name_is_last_name_comma_first_name" time="0.001" timestamp="2020-09-01T21:54:20" file="catalog/tests/test_models.py" line="44"/>
+</testsuite>

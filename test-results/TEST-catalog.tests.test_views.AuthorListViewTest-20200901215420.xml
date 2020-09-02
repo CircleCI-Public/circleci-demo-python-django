@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="catalog.tests.test_views.AuthorListViewTest-20200901215420" tests="5" file="catalog/tests/test_views.py" time="0.022" timestamp="2020-09-01T21:54:22" failures="0" errors="0" skipped="0">
+	<testcase classname="catalog.tests.test_views.AuthorListViewTest" name="test_lists_all_authors" time="0.006" timestamp="2020-09-01T21:54:22" file="catalog/tests/test_views.py" line="39"/>
+	<testcase classname="catalog.tests.test_views.AuthorListViewTest" name="test_pagination_is_ten" time="0.004" timestamp="2020-09-01T21:54:22" file="catalog/tests/test_views.py" line="32"/>
+	<testcase classname="catalog.tests.test_views.AuthorListViewTest" name="test_view_url_accessible_by_name" time="0.003" timestamp="2020-09-01T21:54:22" file="catalog/tests/test_views.py" line="23"/>
+	<testcase classname="catalog.tests.test_views.AuthorListViewTest" name="test_view_url_exists_at_desired_location" time="0.003" timestamp="2020-09-01T21:54:22" file="catalog/tests/test_views.py" line="19"/>
+	<testcase classname="catalog.tests.test_views.AuthorListViewTest" name="test_view_uses_correct_template" time="0.006" timestamp="2020-09-01T21:54:22" file="catalog/tests/test_views.py" line="27"/>
+</testsuite>

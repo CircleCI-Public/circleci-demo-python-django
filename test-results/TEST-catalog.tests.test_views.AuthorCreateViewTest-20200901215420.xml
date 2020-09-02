@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="catalog.tests.test_views.AuthorCreateViewTest-20200901215420" tests="6" file="catalog/tests/test_views.py" time="1.984" timestamp="2020-09-01T21:54:22" failures="1" errors="0" skipped="0">
+	<testcase classname="catalog.tests.test_views.AuthorCreateViewTest" name="test_form_date_of_death_initially_set_to_expected_date" time="0.427" timestamp="2020-09-01T21:54:21" file="catalog/tests/test_views.py" line="329"/>
+	<testcase classname="catalog.tests.test_views.AuthorCreateViewTest" name="test_logged_in_with_permission" time="0.338" timestamp="2020-09-01T21:54:21" file="catalog/tests/test_views.py" line="318"/>
+	<testcase classname="catalog.tests.test_views.AuthorCreateViewTest" name="test_redirect_if_not_logged_in" time="0.230" timestamp="2020-09-01T21:54:21" file="catalog/tests/test_views.py" line="309"/>
+	<testcase classname="catalog.tests.test_views.AuthorCreateViewTest" name="test_redirects_to_detail_view_on_success" time="0.331" timestamp="2020-09-01T21:54:22" file="catalog/tests/test_views.py" line="339"/>
+	<testcase classname="catalog.tests.test_views.AuthorCreateViewTest" name="test_uses_correct_template" time="0.328" timestamp="2020-09-01T21:54:22" file="catalog/tests/test_views.py" line="323"/>
+	<testcase classname="catalog.tests.test_views.AuthorCreateViewTest" name="test_redirect_if_logged_in_but_not_correct_permission" time="0.329" timestamp="2020-09-01T21:54:21" file="catalog/tests/test_views.py" line="313">
+		<failure type="AssertionError" message="403 != 302 : Response didn't redirect as expected: Response code was 403 (expected 302)"><![CDATA[Traceback (most recent call last):
+  File "/Users/johannag/src/circleci-demo-python-django/catalog/tests/test_views.py", line 316, in test_redirect_if_logged_in_but_not_correct_permission
+    self.assertRedirects(resp, '/accounts/login/?next=/catalog/author/create/' )
+  File "/Users/johannag/src/circleci-demo-python-django/env/lib/python3.8/site-packages/django/test/testcases.py", line 356, in assertRedirects
+    self.assertEqual(
+AssertionError: 403 != 302 : Response didn't redirect as expected: Response code was 403 (expected 302)
+]]></failure>
+	</testcase>
+</testsuite>
