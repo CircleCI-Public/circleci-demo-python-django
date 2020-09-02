@@ -17,14 +17,7 @@ jobs:
       - python/save-cache
           key: v1
       - run:
-          command: python --version
-      - run:
-          command: pytest --version
-      - run:
           command: pytest
-      - run:
-          command: python manage.py test
-          name: Test
 
 workflows:
   main:
