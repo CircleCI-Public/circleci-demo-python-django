@@ -10,7 +10,7 @@ name = "pypi"
 dj-database-url = "*"
 django = "*"
 gunicorn = "*"
-"psycopg2" = "*"
+psycopg2-binary = "*"
 whitenoise = "*"
 unittest-xml-reporting = "*"
 
