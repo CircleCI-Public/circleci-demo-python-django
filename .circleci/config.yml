@@ -1,4 +1,6 @@
-version: 2
+version: 2.1
+orbs:
+  python: circleci/python@1.0.0
 jobs:
   build:
     working_directory: ~/circleci-demo-python-django
@@ -13,21 +15,9 @@ jobs:
           POSTGRES_DB: circle_test
     steps:
       - checkout
-      - run: sudo chown -R circleci:circleci /usr/local/bin
-      - run: sudo chown -R circleci:circleci /usr/local/lib/python3.6/site-packages
-      - restore_cache:
-          key: deps10-{{ .Branch }}-{{ checksum "Pipfile.lock" }}
+      - python/install-packages
       - run:
-          command: |
-            sudo pip install pipenv
-            pipenv install
-      - save_cache:
-          key: deps10-{{ .Branch }}-{{ checksum "Pipfile.lock" }}
-          paths:
-            - '.venv'
-            - '/usr/local/bin'
-            - '/usr/local/lib/python3.6/site-packages'
-      - run:
+          name: Run django tests
           command: |
             pipenv run python manage.py test
       - store_test_results:
