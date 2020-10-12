@@ -30,7 +30,8 @@ class RenewBookFormTest(TestCase):
         """
         Test form is valid if renewal_date is today
         """
-        date = datetime.date.today()
+        date = "hello"
+        # date = datetime.date.today()
         form_data = {'renewal_date': date}
         form = RenewBookForm(data=form_data)
         self.assertTrue(form.is_valid())
