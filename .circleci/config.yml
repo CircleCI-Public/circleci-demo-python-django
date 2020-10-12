@@ -1,4 +1,7 @@
 version: 2.1
+orbs:
+  slack: circleci/slack@4.0.0
+
 jobs:
   build:
     working_directory: ~/circleci-demo-python-django
@@ -35,3 +38,14 @@ jobs:
       - store_artifacts:
           path: test-results
           destination: tr1
+      - slack/notify:
+          template: basic_fail_1
+          event: always
+          mentions: '@henna'    
+
+workflows:
+  my_workflow:
+    jobs:
+      - build:  
+          context:
+            - SLACK_SECRETS          
