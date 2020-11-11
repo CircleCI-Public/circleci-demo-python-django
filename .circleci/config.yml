@@ -1,263 +1,53 @@
-# version: 2.1
-# orbs:
-#   slack: circleci/slack@4.0.0
-
-# jobs:
-#   build:
-#     working_directory: ~/circleci-demo-python-django
-#     docker:
-#       - image: circleci/python:3.6.4
-#         environment:
-#           PIPENV_VENV_IN_PROJECT: true
-#           DATABASE_URL: postgresql://root@localhost/circle_test?sslmode=disable
-#       - image: circleci/postgres:9.6.2
-#         environment:
-#           POSTGRES_USER: root
-#           POSTGRES_DB: circle_test
-#     steps:
-#       - checkout
-#       - run: sudo chown -R circleci:circleci /usr/local/bin
-#       - run: sudo chown -R circleci:circleci /usr/local/lib/python3.6/site-packages
-#       - restore_cache:
-#           key: deps10-{{ .Branch }}-{{ checksum "Pipfile.lock" }}
-#       - run:
-#           command: |
-#             sudo pip install pipenv
-#             pipenv install
-#       - save_cache:
-#           key: deps10-{{ .Branch }}-{{ checksum "Pipfile.lock" }}
-#           paths:
-#             - '.venv'
-#             - '/usr/local/bin'
-#             - '/usr/local/lib/python3.6/site-packages'
-#       - run:
-#           command: |
-#             pipenv run python manage.py test
-#       - store_test_results:
-#           path: test-results
-#       - store_artifacts:
-#           path: test-results
-#           destination: tr1
-#       - slack/notify:
-#           template: basic_fail_1
-#           event: always
-#           mentions: '@henna'    
-
-# workflows:
-#   my_workflow:
-#     jobs:
-#       - build:  
-#           context:
-#             - SLACK_SECRETS          
 version: 2.1
 orbs:
-  aws-cli: circleci/aws-cli@1.0.0
-  aws-ecr: circleci/aws-ecr@6.7.0
-  aws-ecs: circleci/aws-ecs@0.0.10
-executors:
-  python:
+  slack: circleci/slack@4.0.0
+
+jobs:
+  build:
+    working_directory: ~/circleci-demo-python-django
     docker:
-      - image: circleci/python:3.6.1
-commands:
-  ecr_build:
-    steps:
-      - setup_remote_docker
-      - aws-ecr/build-and-push-image:
-          repo: "nvsapi-${CIRCLE_BRANCH}"
-          dockerfile: dockerfile
-          tag: "${CIRCLE_SHA1}"
-  npm_test:
-    steps:
-      - run:
-          name: install dependencies
-          command: npm install
-      - run:
-          name: set env variables
-          command: |
-            echo 'PORT=3000' >> .env
-            echo 'MONGOHQ_URL=mongodb://localhost:27017/nvStudentAPI' >> .env
-            echo 'MONGOHQ_URL_TEST=mongodb://localhost:27017/nvStudentAPI' >> .env
-            echo 'NV_ENV=circle' >> .env
-      - run:
-          name: test
-          command: npm test
-  ecs_deploy:
-    steps:
-      - setup_remote_docker
-      - aws-cli/setup:
-          profile-name: default
-      - aws-ecs/update-task-definition:
-          family: 'nvsapi-${CIRCLE_BRANCH}-web-td'
-          container-image-name-updates: 'container=nvsapi-${CIRCLE_BRANCH}-web-npm,tag=${CIRCLE_SHA1}'
-      - aws-ecs/update-task-definition:
-          family: 'nvsapi-${CIRCLE_BRANCH}-worker-td'
-          container-image-name-updates: 'container=nvsapi-${CIRCLE_BRANCH}-worker-npm,tag=${CIRCLE_SHA1}'
-      - aws-ecs/update-task-definition:
-          family: 'nvsapi-${CIRCLE_BRANCH}-etl-td'
-          container-image-name-updates: 'container=nvsapi-${CIRCLE_BRANCH}-etl-npm,tag=${CIRCLE_SHA1}' 
-      - aws-ecs/update-task-definition:
-          family: 'nvsapi-${CIRCLE_BRANCH}-adhoc-td'
-          container-image-name-updates: 'container=nvsapi-${CIRCLE_BRANCH}-adhoc-npm,tag=${CIRCLE_SHA1}'
-      - aws-ecs/update-service:
-          cluster-name: 'systemsAPI'
-          service-name: 'nvsapi-${CIRCLE_BRANCH}-ecs-web-service'
-          family: 'nvsapi-${CIRCLE_BRANCH}-web-td'
-      - aws-ecs/update-service:
-              family: 'nvsapi-${CIRCLE_BRANCH}-worker-td'
-              cluster-name: 'systemsAPI'
-              service-name: 'nvsapi-${CIRCLE_BRANCH}-ecs-worker-service'
-jobs: 
-  test:   # NPM test for other branches
-    docker:
-      - image: circleci/node:12.18.2-buster 
-      - image: rabbitmq:3.6.10
-      - image: circleci/mongo:4.2
-    steps:
-      - checkout 
-      - run:
-          name: install npm
-          command: sudo npm install -g npm@6.14.5
-      - restore_cache:
-          key: dependency-cache-{{ checksum "package.json" }}
-      - run:
-          name: install dependencies
-          command: npm install
-      - save_cache:
-          key: dependency-cache-{{ checksum "package.json" }}
-          paths:
-            - node_modules
-      - run:
-          name: set env variables
-          command: |
-            echo 'PORT=3000' >> .env
-            echo 'MONGOHQ_URL=mongodb://localhost:27017/nvStudentAPI' >> .env
-            echo 'MONGOHQ_URL_TEST=mongodb://localhost:27017/nvStudentAPI' >> .env
-            echo 'NV_ENV=circle' >> .env
-      - run:
-          name: test
-          command: npm test
-  build_dev:  # dev build job
-    executor: python
-    steps:
-      - setup_remote_docker
-      - aws-ecr/build-and-push-image:
-          repo: "nvsapi-dev"
-          dockerfile: dockerfile
-          tag: "${CIRCLE_SHA1}"
-  test_dev: # dev test job
-    docker:
-      - image: 404704789700.dkr.ecr.us-east-1.amazonaws.com/nvsapi-dev:${CIRCLE_SHA1}
-        aws_auth: 
-          aws_access_key_id: $AWS_ACCESS_KEY_ID
-          aws_secret_access_key: $AWS_SECRET_ACCESS_KEY
-      - image: rabbitmq:3.6.10
-      - image: circleci/mongo:4.2
+      - image: circleci/python:3.6.4
+        environment:
+          PIPENV_VENV_IN_PROJECT: true
+          DATABASE_URL: postgresql://root@localhost/circle_test?sslmode=disable
+      - image: circleci/postgres:9.6.2
+        environment:
+          POSTGRES_USER: root
+          POSTGRES_DB: circle_test
     steps:
       - checkout
-      - npm_test
-  deploy_dev: # deploy job for dev
-    executor: python
-    steps:
-      - setup_remote_docker
-      - aws-cli/setup:
-          profile-name: default
-      - aws-ecs/update-task-definition:
-          family: 'nvsapi-dev-web-td'
-          container-image-name-updates: 'container=nvsapi-dev-web-npm,tag=${CIRCLE_SHA1}'
-      - aws-ecs/update-task-definition:
-          family: 'nvsapi-dev-worker-td'
-          container-image-name-updates: 'container=nvsapi-dev-worker-npm,tag=${CIRCLE_SHA1}'
-      - aws-ecs/update-task-definition:
-          family: 'nvsapi-dev-etl-td'
-          container-image-name-updates: 'container=nvsapi-dev-etl-npm,tag=${CIRCLE_SHA1}' 
-      - aws-ecs/update-task-definition:
-          family: 'nvsapi-dev-adhoc-td'
-          container-image-name-updates: 'container=nvsapi-dev-adhoc-npm,tag=${CIRCLE_SHA1}'
-      - aws-ecs/update-service:
-          cluster-name: 'systemsAPI'
-          skip-task-definition-registration: true
-          service-name: 'nvsapi-dev-ecs-web-service'
-          family: 'nvsapi-dev-web-td'
-      - aws-ecs/update-service:
-              family: 'nvsapi-dev-worker-td'
-              skip-task-definition-registration: true
-              cluster-name: 'systemsAPI'
-              service-name: 'nvsapi-dev-ecs-worker-service'
-              
-  build: 
-    executor: python
-    steps:
-      - ecr_build
-  deploy: # Deploy 
-    executor: python
-    steps:
-      - ecs_deploy  
+      - run: sudo chown -R circleci:circleci /usr/local/bin
+      - run: sudo chown -R circleci:circleci /usr/local/lib/python3.6/site-packages
+      - restore_cache:
+          key: deps10-{{ .Branch }}-{{ checksum "Pipfile.lock" }}
+      - run:
+          command: |
+            sudo pip install pipenv
+            pipenv install
+      - save_cache:
+          key: deps10-{{ .Branch }}-{{ checksum "Pipfile.lock" }}
+          paths:
+            - '.venv'
+            - '/usr/local/bin'
+            - '/usr/local/lib/python3.6/site-packages'
+      - run:
+          command: |
+            pipenv run python manage.py test
+      - store_test_results:
+          path: test-results
+      - store_artifacts:
+          path: test-results
+          destination: tr1
+      - slack/notify:
+          template: basic_fail_1
+          event: always
+          mentions: '@henna'    
+
 workflows:
-  version: 2
-  build-deploy:
+  my_workflow:
     jobs:
-<<<<<<< HEAD
-      - build_dev:
-          filters:
-            branches:
-              only: master  
-      - test_dev:
-          requires:
-            - build_dev
-          filters:
-            branches:
-              only: master
-      - deploy_dev:
-          requires:
-            - build_dev
-            - test_dev 
-          filters:
-            branches:
-              only: master
-      - build:
-          filters:
-            branches:
-              only:
-                - staging
-                - prod
-                - dev2
-                - qa
-                - qa2
-                - qa3
-                - uat
-                - data
-      - deploy:
-          requires:
-            - build
-          filters:
-            branches:
-              only:
-                - staging
-                - prod
-                - dev2
-                - qa
-                - qa2
-                - qa3
-                - uat
-                - data
-      - test:
-          filters:
-            branches:
-              ignore: 
-                - dev2
-                - qa
-                - qa2
-                - qa3
-                - data
-                - uat
-                - master
-                - staging
-                - prod 
-                - data
-=======
       - build:  
           context:
             - SLACK_SECRETS          
-            #test
 
->>>>>>> 8fa5a3e13267900e0bf98f7bf9ce588f5eb23ac7
+
