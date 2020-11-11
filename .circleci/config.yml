@@ -196,6 +196,7 @@ workflows:
   version: 2
   build-deploy:
     jobs:
+<<<<<<< HEAD
       - build_dev:
           filters:
             branches:
@@ -253,3 +254,10 @@ workflows:
                 - staging
                 - prod 
                 - data
+=======
+      - build:  
+          context:
+            - SLACK_SECRETS          
+            #test
+
+>>>>>>> 8fa5a3e13267900e0bf98f7bf9ce588f5eb23ac7
