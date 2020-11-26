@@ -1,25 +1,43 @@
 version: 2.1
-orbs:
-  python: circleci/python@1.0.0
+
 jobs:
   build:
-    docker:
-      - image: cimg/python:3.6.10
-        environment:
-          DATABASE_URL: postgresql://root@localhost/circle_test?sslmode=disable
-      - image: circleci/postgres:9.6.2
-        environment:
-          POSTGRES_USER: root
-          POSTGRES_DB: circle_test
-    steps:
-      - checkout
-      - python/install-packages
-      - run:
-          name: Run django tests
-          command: |
-            pipenv run python manage.py test
-      - store_test_results:
-          path: test-results
-      - store_artifacts:
-          path: test-results
-          destination: tr1
+    working_directory: ~/circleci-demo-python-django
+  docker:
+    - image: circleci/python:3.6.4  # primary container for the build job
+      auth:
+        username: mydockerhub-user
+        password: $DOCKERHUB_PASSWORD  # context / project UI env-var reference
+      environment:
+        PIPENV_VENV_IN_PROJECT: true
+        DATABASE_URL: postgresql://root@localhost/circle_test?sslmode=disable
+    - image: circleci/postgres:9.6.2 # an example of how to specify a service container
+      auth:
+        username: mydockerhub-user
+        password: $DOCKERHUB_PASSWORD  # context / project UI env-var reference
+      environment:
+        POSTGRES_USER: root
+        POSTGRES_DB: circle_test
+  steps:
+    - checkout
+    - run: sudo chown -R circleci:circleci /usr/local/bin
+    - run: sudo chown -R circleci:circleci /usr/local/lib/python3.6/site-packages
+    - restore_cache:
+        key: deps9-{{ .Branch }}-{{ checksum "Pipfile.lock" }}
+    - run: 
+        command: |
+          sudo pip install pipenv
+          pipenv install
+    - save_cache: 
+        key: deps9-{{ .Branch }}-{{ checksum "Pipfile.lock" }}
+        paths:
+          - "venv"
+    - run: 
+        command: |
+          pipenv run python manage.py test
+    - store_test_results: 
+        path: test-results
+    - store_artifacts:
+        path: test-results
+        destination: tr1
+
