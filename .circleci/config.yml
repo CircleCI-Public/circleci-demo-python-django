@@ -42,10 +42,15 @@ jobs:
           template: basic_fail_1
           event: fail
           mentions: '@henna' 
+<<<<<<< HEAD
       - run: MY_VAR=$(python3 hello.py) && echo $MY_VAR
       - run: curl --request GET --url https://circleci.com/api/v2/project/gh/HennaAbbas/circleci-demo-python-django/5/tests 
 
 
+=======
+      # - run: curl --request GET --url https://circleci.com/api/v2/project/gh/HennaAbbas/circleci-demo-python-django/5/tests --header 'Circle-Token: a09b8b7f1b3a8fbfc938253c892530208ddb0c39'
+      #       - run: curl -X GET https://circleci.com/api/v2/project/gh/HennaAbbas/circleci-demo-python-django/${CIRCLE_BUILD_NUM}/tests -H 'Circle-Token: ${CIRCLE_TOKEN}'
+>>>>>>> 29a640ce07cb48aff4bd7dc8c622d949176a871b
 workflows:
   my_workflow:
     jobs:
