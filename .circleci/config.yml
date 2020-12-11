@@ -43,7 +43,7 @@ jobs:
           event: fail
           mentions: '@henna' 
 #       - run: curl --request GET --url https://circleci.com/api/v2/project/gh/HennaAbbas/circleci-demo-python-django/5/tests 
-      - run: curl -X GET https://circleci.com/api/v2/project/gh/HennaAbbas/circleci-demo-python-django/$CIRCLE_BUILD_NUM/tests \ -H 'Circle-Token: $CIRCLE_TOKEN'
+      - run: curl -X GET https://circleci.com/api/v2/project/gh/HennaAbbas/circleci-demo-python-django/${CIRCLE_BUILD_NUM}/tests -H 'Circle-Token: ${CIRCLE_TOKEN}'
 workflows:
   my_workflow:
     jobs:
