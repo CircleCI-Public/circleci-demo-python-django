@@ -42,8 +42,8 @@ jobs:
           template: basic_fail_1
           event: fail
           mentions: '@henna' 
-      - run: curl --request GET --url https://circleci.com/api/v2/project/gh/HennaAbbas/circleci-demo-python-django/5/tests 
-
+#       - run: curl --request GET --url https://circleci.com/api/v2/project/gh/HennaAbbas/circleci-demo-python-django/5/tests 
+      - run: curl -u ${CIRCLECI_TOKEN}: -X GET --header "Content-Type: application/json" https://circleci.com/api/v2/project/gh/HennaAbbas/circleci-demo-python-django/5/tests 
 
 workflows:
   my_workflow:
