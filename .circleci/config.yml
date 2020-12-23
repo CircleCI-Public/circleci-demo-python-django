@@ -41,7 +41,7 @@ jobs:
       - slack/notify:
           template: basic_fail_1
           mentions: '@henna' 
-          channel: henna-test-channel
+          channel: HENNA-test-channel
 
 
 workflows:
