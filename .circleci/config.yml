@@ -84,5 +84,6 @@ workflows:
     jobs:
       - build:  
           context:
-            - SLACK_SECRETS          
+            - SLACK_SECRETS
+      - build_2       
 
