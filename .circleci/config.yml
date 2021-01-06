@@ -73,6 +73,7 @@ jobs:
           command: |
             pipenv run python manage.py test
       - store_test_results:
+          name: renamed test result step
           path: test-results
       - store_artifacts:
           path: test-results
