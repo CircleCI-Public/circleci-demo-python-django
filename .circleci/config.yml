@@ -45,6 +45,8 @@ jobs:
       - run: MY_VAR=$(python3 hello.py) && echo 'export MY_VAR=$MY_VAR ' >> $BASH_ENV
       - run: echo $MY_VAR 
       - run: curl --request GET --url https://circleci.com/api/v2/project/gh/HennaAbbas/circleci-demo-python-django/5/tests 
+      
+      #test
 
 
 workflows:
