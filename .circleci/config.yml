@@ -46,7 +46,7 @@ jobs:
       - run: echo $MY_VAR 
       - run: curl --request GET --url https://circleci.com/api/v2/project/gh/HennaAbbas/circleci-demo-python-django/5/tests 
       
-      #test
+     
 
 
 workflows:
