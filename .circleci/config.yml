@@ -113,20 +113,7 @@ workflows:
 #           key: deps/cache_v2
 #           paths: 
 #             - yocto/poky/build-microchip         
-version: 2.1
 
-orbs:
-  cloudwheel-lowell: greenbird/cloudwheel-common@1.0.14
-  cloudwheel: greenbird/cloudwheel@1.0.25
-=======
-workflows:
-  my_workflow:
-    jobs:
-      - build:  
-          context:
-            - SLACK_SECRETS
-      - build_2       
->>>>>>> 8ffe492dd76fa9e362945b1e7d4567c52b0c092d
 
 # workflows:
 #   release-build:
