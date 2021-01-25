@@ -89,7 +89,7 @@ workflows:
           filters:  # required since `test` has tag filters AND requires `build`
             tags:
               only: /^config-test.*/            
-      - build_2
+      - build_2:
           filters:  # required since `test` has tag filters AND requires `build`
             tags:
               only: /^config-test.*/      
