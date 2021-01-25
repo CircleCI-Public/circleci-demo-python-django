@@ -88,11 +88,11 @@ workflows:
             - SLACK_SECRETS
           filters:  # required since `test` has tag filters AND requires `build`
             tags:
-              only: /^config-test.*/            
+              only: /.*/            
       - build_2:
           filters:  # required since `test` has tag filters AND requires `build`
             tags:
-              only: /^config-test.*/      
+              only: /.*/      
 
                      
 
