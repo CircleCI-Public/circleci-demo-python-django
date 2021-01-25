@@ -1,42 +1,20 @@
 version: 2.1
+orbs:
+  slack: circleci/slack@4.0.0
 
-workflows:
-  my-workflow:
-    jobs:
-      - run-tests
-      - second_job   
-   
-  
 jobs:
-  run-tests:
-    macos:
-      xcode: 11.3.0
-    steps:
-#        - checkout
-      - run: echo "hello world"
-      - when: 
-          condition: 
-            equal: [ hourly-test, $CIRCLE_BRANCH ]
-          steps:
-            - run: echo "running conditional step"
-     
-      
-#        - checkout
-#        - run: 
-#            name: "echo environment variables from org-global context"
-#            command: echo "hello world job 1 "
-#        - run: 
-#            name: "Setup custom environment variables"
-#            command: echo 'export MY_ENV_VAR="FOO"' >> $BASH_ENV     
-   
-          
-  second_job:
+  build:
+    working_directory: ~/circleci-demo-python-django
     docker:
-      - image: cimg/base:2020.01
+      - image: circleci/python:3.6.4
+        environment:
+          PIPENV_VENV_IN_PROJECT: true
+          DATABASE_URL: postgresql://root@localhost/circle_test?sslmode=disable
+      - image: circleci/postgres:9.6.2
+        environment:
+          POSTGRES_USER: root
+          POSTGRES_DB: circle_test
     steps:
-<<<<<<< HEAD
-      - run: echo "bye world. This is a scheduled workflow/job"
-=======
       - checkout
       - run: sudo chown -R circleci:circleci /usr/local/bin
       - run: sudo chown -R circleci:circleci /usr/local/lib/python3.6/site-packages
@@ -100,17 +78,15 @@ jobs:
       - store_artifacts:
           path: test-results
           destination: tr2          
->>>>>>> 8ffe492dd76fa9e362945b1e7d4567c52b0c092d
 
-        
-#  version: 2.1
 
-<<<<<<< HEAD
-#  workflows:
-#    my-workflow:
-#      jobs:
-#        - run-tests
-
+workflows:
+  my_workflow:
+    jobs:
+      - build:  
+          context:
+            - SLACK_SECRETS
+      - build_2
 
                      
 
