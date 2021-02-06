@@ -46,7 +46,7 @@ jobs:
       - run: pwd      
           
       - persist_to_workspace:
-          root: ~/
+          root: ./
           paths:
             - test-results
          
