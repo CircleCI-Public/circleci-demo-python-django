@@ -43,6 +43,14 @@ jobs:
           template: basic_fail_1
           mentions: '@henna' 
           channel: HENNA-test-channel
+          
+      - run: pwd      
+          
+      - persist_to_workspace:
+          root: ~/
+          paths:
+            - test-results
+         
   build_2:
     working_directory: ~/circleci-demo-python-django
     docker:
