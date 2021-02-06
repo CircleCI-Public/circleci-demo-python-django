@@ -16,7 +16,6 @@ jobs:
           POSTGRES_DB: circle_test  
     steps:
       - checkout
-      - run: postgres -V
       - run: sudo chown -R circleci:circleci /usr/local/bin
       - run: sudo chown -R circleci:circleci /usr/local/lib/python3.6/site-packages
       - restore_cache:
@@ -102,7 +101,7 @@ workflows:
           filters:  # required since `test` has tag filters AND requires `build`
             tags:
               only: /.*/      
-
+#
                      
 
 
