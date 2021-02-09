@@ -51,7 +51,8 @@ jobs:
 #             - test-results
           root: /
           paths:
-            - tmp
+            - home/circleci/circleci-demo-python-django
+
          
   build_2:
     working_directory: ~/circleci-demo-python-django
