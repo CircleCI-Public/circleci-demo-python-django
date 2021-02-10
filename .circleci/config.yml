@@ -13,10 +13,9 @@ jobs:
       - image: circleci/postgres:9.6.2
         environment:
           POSTGRES_USER: root
-          POSTGRES_DB: circle_test  
+          POSTGRES_DB: circle_test
     steps:
       - checkout
-      - run: postgres -V
       - run: sudo chown -R circleci:circleci /usr/local/bin
       - run: sudo chown -R circleci:circleci /usr/local/lib/python3.6/site-packages
       - restore_cache:
@@ -41,103 +40,12 @@ jobs:
           destination: tr1
       - slack/notify:
           template: basic_fail_1
-          mentions: '@henna' 
-          channel: HENNA-test-channel
-  build_2:
-    working_directory: ~/circleci-demo-python-django
-    docker:
-      - image: circleci/python:3.6.4
-        environment:
-          PIPENV_VENV_IN_PROJECT: true
-          DATABASE_URL: postgresql://root@localhost/circle_test?sslmode=disable
-      - image: circleci/postgres:9.6.2
-        environment:
-          POSTGRES_USER: root
-          POSTGRES_DB: circle_test
-    steps:
-      - checkout
-      - run: sudo chown -R circleci:circleci /usr/local/bin
-      - run: sudo chown -R circleci:circleci /usr/local/lib/python3.6/site-packages
-      - restore_cache:
-          key: deps10-{{ .Branch }}-{{ checksum "Pipfile.lock" }}
-      - run:
-          command: |
-            sudo pip install pipenv
-            pipenv install
-      - save_cache:
-          key: deps10-{{ .Branch }}-{{ checksum "Pipfile.lock" }}
-          paths:
-            - '.venv'
-            - '/usr/local/bin'
-            - '/usr/local/lib/python3.6/site-packages'
-      - run:
-          command: |
-            pipenv run python manage.py test
-      - store_test_results:
-          name: renamed test result step
-          path: test-results
-      - store_artifacts:
-          path: test-results
-          destination: tr2          
-
+          event: always
+          mentions: '@henna'    
 
 workflows:
   my_workflow:
     jobs:
       - build:  
           context:
-            - SLACK_SECRETS
-          filters:  # required since `test` has tag filters AND requires `build`
-            tags:
-              only: /.*/            
-      - build_2:
-          filters:  # required since `test` has tag filters AND requires `build`
-            tags:
-              only: /.*/      
-
-                     
-
-
-      
-#  jobs:
-#    run-tests:
-#      docker:
-#       - image: circleci/ruby:2.5.5-stretch-node-browsers
-#      steps:
-#        - checkout 
-#        - run: echo "hello world"
-#        - run: echo "$CIRCLE_COMPARE_URL"
-#        - run: echo "$CI_PULL_REQUEST"
-#        - run: 
-#           name: Gorelease (with new version or snapshot)
-#           command: |
-#             export VER=$( svu n )
-#             echo $VER
-#             git tag $VER
-#             git add --all
-#             git push origin --tags
-#       - save_cache:
-#           key: deps/cache_v2
-#           paths: 
-#             - yocto/poky/build-microchip         
-
-
-# workflows:
-#   release-build:
-#     jobs:
-#       - cloudwheel-lowell/maven-build-release:
-#           # context: cloudwheel-common
-#           executor: cloudwheel-lowell/linux
-#           filters:
-#             branches:
-#               only:
-#                 - master
-#       - cloudwheel-lowell/maven-nexus-deploy:
-#           image: cloudwheel-lowell/linux
-#           # context: cloudwheel-common
-#           filters:
-#             branches:
-#               only:
-#                 - master
-#           requires:
-#             - cloudwheel-lowell/maven-build-release
+            - SLACK_SECRETS    
