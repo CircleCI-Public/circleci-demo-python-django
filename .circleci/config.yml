@@ -42,26 +42,7 @@ jobs:
           template: basic_fail_1
           event: always
           mentions: '@henna'  
-  test_persist_to_workspace:
-    working_directory: ~/circleci-demo-python-django
-    docker:
-      - image: circleci/python:3.6.4
-    steps: 
-      - run: |
-            mkdir test_folder && touch test_folder/test_file.txt && echo "this is a test" > test_folder/test_file.txt
-      - persist_to_workspace:
-            root: ./test_folder
-            paths:
-              - test_file.txt
-    
-                   
-  test_attatch_workspace:
-    working_directory: ~/circleci-demo-python-django
-    docker:
-      - image: circleci/python:3.6.4
-    steps: 
-        - attach_workspace:
-            at: /tmp/workspace     
+ 
 
 workflows:
   my_workflow:
@@ -69,6 +50,4 @@ workflows:
       - build:  
           context:
             - SLACK_SECRETS
-      - test_persist_to_workspace
-      - test_attatch_workspace
-                 
+
