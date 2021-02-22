@@ -16,7 +16,7 @@ jobs:
           POSTGRES_DB: circle_test
     steps:
       - checkout
-      - run: echo " The basepipline is : << pipeline.git.base_revision >> " 
+      - run: echo "<< pipeline.git.base_revision >> " 
       - run: sudo chown -R circleci:circleci /usr/local/bin
       - run: sudo chown -R circleci:circleci /usr/local/lib/python3.6/site-packages
       - restore_cache:
