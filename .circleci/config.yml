@@ -18,6 +18,7 @@ jobs:
       - checkout
       - run: echo "<< pipeline.git.base_revision >> "
       - run: echo "CIRCLE_SHA"
+      - run: git diff test..master
       - run: sudo chown -R circleci:circleci /usr/local/bin
       - run: sudo chown -R circleci:circleci /usr/local/lib/python3.6/site-packages
       - restore_cache:
