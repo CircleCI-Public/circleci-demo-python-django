@@ -10,7 +10,7 @@ You can follow along with this project by reading the [documentation](https://ci
 
 - regularly updated to use latest Python and Django (currently Python 3.6.4 and Django 2.0.1)
 - uses [pipenv](http://pipenv.readthedocs.io/en/latest/) to install and manage dependencies and virtualenvs on CircleCI
-- shows usage of caching on CircleCI 2.0 to speed up builds. Makes use of Ppipfile.lock to invalidate cache if dependencies change
+- shows usage of caching on CircleCI 2.5 to speed up builds. Makes use of Ppipfile.lock to invalidate cache if dependencies change
 - runs tests against a PostgreSQL database
 - store and upload test result in Junit XML format with [unittest-xml-reporting](https://github.com/xmlrunner/unittest-xml-reporting) to enable Test Summary and Insights on CircleCI
 
@@ -28,6 +28,7 @@ The main features that have currently been implemented are:
 * Users can view list and detail information for books and authors.
 * Admin users can create and manage models. The admin has been optimised (the basic registration is present in admin.py, but commented out).
 * Librarians can renew reserved books
+* Demo feature
 
 ![Local Library Model](https://github.com/mdn/django-locallibrary-tutorial/blob/master/catalog/static/images/local_library_model_uml.png)
 
