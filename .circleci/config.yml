@@ -66,6 +66,10 @@ jobs:
     steps:
       - attach_workspace: 
             at: /tmp/workspace
+      - slack/notify:
+          template: basic_fail_1
+          event: always
+          mentions: '@henna' 
 
 workflows:
   my_workflow:
@@ -74,7 +78,21 @@ workflows:
           context:
             - SLACK_SECRETS
       - test_job_1
-      - test_job_2:
-            requires: 
-              - test_job_1      
 
+  my_other_workflow:
+    jobs:
+      - test_job_1    
+  nightly:
+    triggers:
+      - schedule:
+          cron: "* * * * *"
+          filters:
+            branches:
+              only:
+                - test
+
+    jobs:
+      - test_job_2:
+          context:
+            - SLACK_SECRETS      
+  
