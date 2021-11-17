@@ -83,14 +83,14 @@ workflows:
   my_other_workflow:
     jobs:
       - test_job_1    
-  nightly:
+
+  routine-flaky-e2e-tests:
     triggers:
-      - schedule:
-          cron: "* * * * *"
-          filters:
-            branches:
-              only:
-                - test
+    - schedule:
+        cron: 0 11,18 * * 1-5
+        filters:
+          branches:
+            only: [test]                
 
     jobs:
       - test_job_2:
