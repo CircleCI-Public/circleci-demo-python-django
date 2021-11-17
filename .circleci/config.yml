@@ -96,4 +96,7 @@ workflows:
       - test_job_2:
           context:
             - SLACK_SECRETS      
-  
+  version: 2
+  spin-down-review-env:
+    jobs:
+      - build
