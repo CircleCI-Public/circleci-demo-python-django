@@ -1,105 +1,103 @@
 version: 2.1
-orbs:
-  slack: circleci/slack@4.0.0
+# orbs:
+#   slack: circleci/slack@4.0.0
 
 jobs:
   build:
-    working_directory: ~/circleci-demo-python-django
+#     working_directory: ~/circleci-demo-python-django
     docker:
-      - image: cimg/python:3.9
-        environment:
-          PIPENV_VENV_IN_PROJECT: true
-          DATABASE_URL: postgresql://root@localhost/circle_test?sslmode=disable
-      - image: circleci/postgres:9.6.2
-        environment:
-          POSTGRES_USER: root
-          POSTGRES_DB: circle_test
+      - image: cimg/ruby:2.7.4-browsers
+#         environment:
+#           PIPENV_VENV_IN_PROJECT: true
+#           DATABASE_URL: postgresql://root@localhost/circle_test?sslmode=disable
+#       - image: circleci/postgres:9.6.2
+#         environment:
+#           POSTGRES_USER: root
+#           POSTGRES_DB: circle_test
     steps:
-      - add_ssh_keys:
-          fingerprints:
-            - "83:54:85:e4:8f:45:9f:af:91:92:29:48:51:33:47:cb"    
-      - checkout
+      - run: sudo apt-get install xvfb libgtk2.0-0 libnotify-dev libgconf-2-4 libnss3 libxss1 libasound2 
+#       - checkout
 
-      - run: echo "<< pipeline.git.base_revision >> "
-      - run: echo "CIRCLE_SHA"
-#       - run: git diff test..master # #
-      - run: sudo chown -R circleci:circleci /usr/local/bin
-      - run: sudo chown -R circleci:circleci /usr/local/lib/python3.6/site-packages
-      - restore_cache:
-          key: deps10-{{ .Branch }}-{{ checksum "Pipfile.lock" }}
-      - run:
-          command: |
-            sudo pip install pipenv
-            pipenv install
-      - save_cache:
-          key: deps10-{{ .Branch }}-{{ checksum "Pipfile.lock" }}
-          paths:
-            - '.venv'
-            - '/usr/local/bin'
-            - '/usr/local/lib/python3.6/site-packages'
-      - run:
-          command: |
-            pipenv run python manage.py test
-      - store_test_results:
-          path: test-results
-      - store_artifacts:
-          path: test-results
-          destination: tr1
-      - slack/notify:
-          template: basic_fail_1
-          event: always
-          mentions: '@henna'  
+#       - run: echo "<< pipeline.git.base_revision >> "
+#       - run: echo "CIRCLE_SHA"
+# #       - run: git diff test..master # #
+#       - run: sudo chown -R circleci:circleci /usr/local/bin
+#       - run: sudo chown -R circleci:circleci /usr/local/lib/python3.6/site-packages
+#       - restore_cache:
+#           key: deps10-{{ .Branch }}-{{ checksum "Pipfile.lock" }}
+#       - run:
+#           command: |
+#             sudo pip install pipenv
+#             pipenv install
+#       - save_cache:
+#           key: deps10-{{ .Branch }}-{{ checksum "Pipfile.lock" }}
+#           paths:
+#             - '.venv'
+#             - '/usr/local/bin'
+#             - '/usr/local/lib/python3.6/site-packages'
+#       - run:
+#           command: |
+#             pipenv run python manage.py test
+#       - store_test_results:
+#           path: test-results
+#       - store_artifacts:
+#           path: test-results
+#           destination: tr1
+#       - slack/notify:
+#           template: basic_fail_1
+#           event: always
+#           mentions: '@henna'  
 
-  test_job_1:
-    working_directory: ~/circleci-demo-python-django
-    docker:
-      - image: circleci/python:3.6.4          
-    steps:
-      - run: |
-            mkdir test_folder && touch test_file.txt && echo "this is a test" > test_folder/test_file.txt
+#   test_job_1:
+#     working_directory: ~/circleci-demo-python-django
+#     docker:
+#       - image: circleci/python:3.6.4          
+#     steps:
+#       - run: |
+#             mkdir test_folder && touch test_file.txt && echo "this is a test" > test_folder/test_file.txt
 
-      - persist_to_workspace: 
-            root: ./test_folder
-            paths: 
-              - test_file.txt
-#
-  test_job_2:
-    circleci_ip_ranges: true  
-    working_directory: ~/circleci-demo-python-django
-    docker:
-      - image: circleci/python:3.6.4          
-    steps:
-      - attach_workspace: 
-            at: /tmp/workspace
-      - slack/notify:
-          template: basic_fail_1
-          event: always
-          mentions: '@henna' 
+#       - persist_to_workspace: 
+#             root: ./test_folder
+#             paths: 
+#               - test_file.txt
+# #
+#   test_job_2:
+#     circleci_ip_ranges: true  
+#     working_directory: ~/circleci-demo-python-django
+#     docker:
+#       - image: circleci/python:3.6.4          
+#     steps:
+#       - attach_workspace: 
+#             at: /tmp/workspace
+#       - slack/notify:
+#           template: basic_fail_1
+#           event: always
+#           mentions: '@henna' 
 
-workflows:
-  my_workflow:
-    jobs:
-      - build:  
-          context:
-            - SLACK_SECRETS
-      - test_job_1
+# workflows:
+#   my_workflow:
+#     jobs:
+#       - build:  
+#           context:
+#             - SLACK_SECRETS
+#       - test_job_1
 
-  my_other_workflow:
-    jobs:
-      - test_job_1    
+#   my_other_workflow:
+#     jobs:
+#       - test_job_1    
 
-  routine-flaky-e2e-tests:
-    triggers:
-    - schedule:
-        cron: 0 11,18 * * 1-5
-        filters:
-          branches:
-            only: [test]                
+#   routine-flaky-e2e-tests:
+#     triggers:
+#     - schedule:
+#         cron: 0 11,18 * * 1-5
+#         filters:
+#           branches:
+#             only: [test]                
 
-    jobs:
-      - test_job_2:
-          context:
-            - SLACK_SECRETS      
+#     jobs:
+#       - test_job_2:
+#           context:
+#             - SLACK_SECRETS      
   version: 2
   spin-down-review-env:
     jobs:
