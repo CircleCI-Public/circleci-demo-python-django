@@ -15,8 +15,11 @@ jobs:
           POSTGRES_USER: root
           POSTGRES_DB: circle_test
     steps:
+      - add_ssh_keys:
+          fingerprints:
+            - "c4:6f:35:b6:b6:fa:17:56:19:eb:ab:6b:86:1e:22:f4"    
       - checkout
-      - run : pip install codecov
+
       - run: echo "<< pipeline.git.base_revision >> "
       - run: echo "CIRCLE_SHA"
 #       - run: git diff test..master # #
