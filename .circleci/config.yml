@@ -6,7 +6,7 @@ jobs:
   build:
     working_directory: ~/circleci-demo-python-django
     docker:
-      - image: circleci/python:3.6.4
+      - image: cimg/python:3.9
         environment:
           PIPENV_VENV_IN_PROJECT: true
           DATABASE_URL: postgresql://root@localhost/circle_test?sslmode=disable
@@ -16,6 +16,7 @@ jobs:
           POSTGRES_DB: circle_test
     steps:
       - checkout
+      - run : pip install codecov
       - run: echo "<< pipeline.git.base_revision >> "
       - run: echo "CIRCLE_SHA"
 #       - run: git diff test..master # #
