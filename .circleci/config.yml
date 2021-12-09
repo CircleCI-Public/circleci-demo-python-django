@@ -17,7 +17,7 @@ jobs:
     steps:
       - add_ssh_keys:
           fingerprints:
-            - "c4:6f:35:b6:b6:fa:17:56:19:eb:ab:6b:86:1e:22:f4"    
+            - "83:54:85:e4:8f:45:9f:af:91:92:29:48:51:33:47:cb"    
       - checkout
 
       - run: echo "<< pipeline.git.base_revision >> "
