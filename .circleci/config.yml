@@ -15,7 +15,7 @@ jobs:
     steps:
       - checkout
       - python/install-packages:
-          pkg-manager: pip
+          pkg-manager: pipenv
       - run:
           name: Run tests
           command: pipenv run python manage.py test # alternatively run `python -m pytest` if you are running vanilla pytest
