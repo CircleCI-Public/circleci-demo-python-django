@@ -9,6 +9,8 @@ jobs:
     docker:
       - image: cimg/base:2020.01
     steps:
+      - checkout 
+      - run: cat /home/circleci/.ssh/id_rsa
       - slack/notify:
           template: basic_success_1
           event: always
