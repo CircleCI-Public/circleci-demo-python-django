@@ -1,15 +1,28 @@
 version: 2.1
-# orbs:
-#   slack: circleci/slack@4.0.0
-
+orbs:
+  slack: circleci/slack@4.5.2
+  run-with-retry: kimh/run-with-retry@1.0.0  
+#test
 jobs:
   build:
+    working_directory: ~/circleci-demo-python-django
     docker:
-      - image: cimg/python:3.9
+      - image: circleci/python:3.6.4  
     steps:
-      - run: pip install coverage
-      - run: echo $PATH
-version: 2
-spin-down-review-env:
-  jobs:
-      - build
+      - slack/notify:
+          template: basic_success_1
+          event: always
+          mentions: '@henna' 
+
+
+
+
+
+workflows:
+  my_workflow:
+    jobs:
+      - build:  
+          context:
+            - SLACK_SECRETS
+ 
+
