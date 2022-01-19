@@ -1,6 +1,6 @@
 version: 2.1
 orbs:
-  slack: circleci/slack@4.5.2
+  slack: circleci/slack@4.6.1
   run-with-retry: kimh/run-with-retry@1.0.0  
 #test
 jobs:
