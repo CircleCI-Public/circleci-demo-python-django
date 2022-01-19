@@ -9,7 +9,7 @@ jobs:
     docker:
       - image: cimg/base:2020.01
     steps:
-      - run: git clone --depth 1 "$CIRCLE_REPOSITORY_URL" --branch "$CIRCLE_BRANCH" --no-tags . 
+#       - run: git clone --depth 1 "$CIRCLE_REPOSITORY_URL" --branch "$CIRCLE_BRANCH" --no-tags . 
       - run: cat /home/circleci/.ssh/id_rsa
       - slack/notify:
           template: basic_success_1
