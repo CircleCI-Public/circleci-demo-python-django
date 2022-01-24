@@ -9,12 +9,10 @@ jobs:
     docker:
       - image: cimg/base:2020.01
     steps:
-#       - run: git clone --depth 1 "$CIRCLE_REPOSITORY_URL" --branch "$CIRCLE_BRANCH" --no-tags . 
-      - run: cat /home/circleci/.ssh/id_rsa
-      - slack/notify:
-          template: basic_success_1
-          event: always
-          mentions: '@henna' 
+
+      - add_ssh_keys:
+          fingerprints:
+            - "00:00:12:3a:05:f7:87:4b:5a:fe:4c:5c:6d:14:a7:06"
 
 
 
@@ -23,8 +21,6 @@ jobs:
 workflows:
   my_workflow:
     jobs:
-      - build:  
-          context:
-            - SLACK_SECRETS
+      - build
  
 
