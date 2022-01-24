@@ -9,31 +9,31 @@ jobs:
     docker:
       - image: cimg/base:2020.01
     steps:
-    - restore_cache:
-        keys:
-        - v{{ .Environment.CIRCLE_CACHE_VERSION }}-git-{{ .Branch }}-{{ .Revision }}
-        - v{{ .Environment.CIRCLE_CACHE_VERSION }}-git-{{ .Branch }}-
-        - v{{ .Environment.CIRCLE_CACHE_VERSION }}-git-
-    - checkout
-    - save_cache:
-        key: v{{ .Environment.CIRCLE_CACHE_VERSION }}-git-{{ .Branch }}-{{ .Revision }}
-        paths:
-        - .git
+      - restore_cache:
+          keys:
+          - v{{ .Environment.CIRCLE_CACHE_VERSION }}-git-{{ .Branch }}-{{ .Revision }}
+          - v{{ .Environment.CIRCLE_CACHE_VERSION }}-git-{{ .Branch }}-
+          - v{{ .Environment.CIRCLE_CACHE_VERSION }}-git-
+      - checkout
+      - save_cache:
+          key: v{{ .Environment.CIRCLE_CACHE_VERSION }}-git-{{ .Branch }}-{{ .Revision }}
+          paths:
+          - .git
   test:
     working_directory: ~/circleci-demo-python-django
     docker:
       - image: cimg/base:2020.01
     steps:
-    - restore_cache:
-        keys:
-        - v{{ .Environment.CIRCLE_CACHE_VERSION }}-git-{{ .Branch }}-{{ .Revision }}
-        - v{{ .Environment.CIRCLE_CACHE_VERSION }}-git-{{ .Branch }}-
-        - v{{ .Environment.CIRCLE_CACHE_VERSION }}-git-
-    - checkout
-    - save_cache:
-        key: v{{ .Environment.CIRCLE_CACHE_VERSION }}-git-{{ .Branch }}-{{ .Revision }}
-        paths:
-        - .git
+      - restore_cache:
+          keys:
+          - v{{ .Environment.CIRCLE_CACHE_VERSION }}-git-{{ .Branch }}-{{ .Revision }}
+          - v{{ .Environment.CIRCLE_CACHE_VERSION }}-git-{{ .Branch }}-
+          - v{{ .Environment.CIRCLE_CACHE_VERSION }}-git-
+      - checkout
+      - save_cache:
+          key: v{{ .Environment.CIRCLE_CACHE_VERSION }}-git-{{ .Branch }}-{{ .Revision }}
+          paths:
+          - .git
 
 
 
