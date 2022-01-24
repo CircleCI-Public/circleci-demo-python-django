@@ -9,11 +9,31 @@ jobs:
     docker:
       - image: cimg/base:2020.01
     steps:
-
-      - add_ssh_keys:
-          fingerprints:
-            - "00:00:12:3a:05:f7:87:4b:5a:fe:4c:5c:6d:14:a7:06"
-
+    - restore_cache:
+        keys:
+        - v{{ .Environment.CIRCLE_CACHE_VERSION }}-git-{{ .Branch }}-{{ .Revision }}
+        - v{{ .Environment.CIRCLE_CACHE_VERSION }}-git-{{ .Branch }}-
+        - v{{ .Environment.CIRCLE_CACHE_VERSION }}-git-
+    - checkout
+    - save_cache:
+        key: v{{ .Environment.CIRCLE_CACHE_VERSION }}-git-{{ .Branch }}-{{ .Revision }}
+        paths:
+        - .git
+  test:
+    working_directory: ~/circleci-demo-python-django
+    docker:
+      - image: cimg/base:2020.01
+    steps:
+    - restore_cache:
+        keys:
+        - v{{ .Environment.CIRCLE_CACHE_VERSION }}-git-{{ .Branch }}-{{ .Revision }}
+        - v{{ .Environment.CIRCLE_CACHE_VERSION }}-git-{{ .Branch }}-
+        - v{{ .Environment.CIRCLE_CACHE_VERSION }}-git-
+    - checkout
+    - save_cache:
+        key: v{{ .Environment.CIRCLE_CACHE_VERSION }}-git-{{ .Branch }}-{{ .Revision }}
+        paths:
+        - .git
 
 
 
@@ -22,5 +42,6 @@ workflows:
   my_workflow:
     jobs:
       - build
+      - test
  
 
