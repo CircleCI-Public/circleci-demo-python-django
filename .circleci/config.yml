@@ -13,10 +13,10 @@ jobs:
           keys:
           - v{{ .Environment.CIRCLE_CACHE_VERSION }}-git-{{ .Branch }}-{{ .Revision }}
       - checkout
-      - save_cache:
-          key: v{{ .Environment.CIRCLE_CACHE_VERSION }}-git-{{ .Branch }}-{{ .Revision }}
-          paths:
-          - .git
+#       - save_cache:
+#           key: v{{ .Environment.CIRCLE_CACHE_VERSION }}-git-{{ .Branch }}-{{ .Revision }}
+#           paths:
+#           - .git
   test:
     working_directory: ~/circleci-demo-python-django
     docker:
@@ -26,10 +26,10 @@ jobs:
           keys:
           - v{{ .Environment.CIRCLE_CACHE_VERSION }}-git-{{ .Branch }}-{{ .Revision }}
       - checkout
-      - save_cache:
-          key: v{{ .Environment.CIRCLE_CACHE_VERSION }}-git-{{ .Branch }}-{{ .Revision }}
-          paths:
-          - .git
+#       - save_cache:
+#           key: v{{ .Environment.CIRCLE_CACHE_VERSION }}-git-{{ .Branch }}-{{ .Revision }}
+#           paths:
+#           - .git
 
 
 
