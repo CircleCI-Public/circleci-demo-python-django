@@ -5,7 +5,7 @@ name = "pypi"
 
 [packages]
 dj-database-url = "*"
-django = "*"
+django = "==3.1.1"
 gunicorn = "*"
 psycopg2-binary = "*"
 whitenoise = "*"
