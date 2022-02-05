@@ -75,12 +75,11 @@ jobs:
       - attach_workspace:
           at: ~/project
       - run:
-          name: Debug
-          command: ls -a .coverage*
-      - run:
           name: Combine coverage reports (fan-in)
+          command: pipenv run coverage combine
+      - run:
+          name: Generate coverage report in XML
           command: |
-            pipenv run coverage combine
             pipenv run coverage xml
       - codecov/upload
 
