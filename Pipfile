@@ -1,19 +1,19 @@
 [[source]]
-
 url = "https://pypi.python.org/simple"
 verify_ssl = true
 name = "pypi"
 
-
 [packages]
-
 dj-database-url = "*"
 django = "*"
 gunicorn = "*"
 psycopg2-binary = "*"
 whitenoise = "*"
-unittest-xml-reporting = "*"
-
 
 [dev-packages]
+black = "*"
+coverage = "*"
+unittest-xml-reporting = "*"
 
+[pipenv]
+allow_prereleases = true
