@@ -2,7 +2,8 @@ version: 2.1
 
 orbs:
   python: circleci/python@1.5.0
-  heroku: circleci/heroku@1.2.6
+  # heroku: circleci/heroku@1.2.6
+  codecov: codecov/codecov@3.2.2
 
 jobs:
   build_and_test: # this can be any name you choose
@@ -27,8 +28,10 @@ jobs:
           name: Run tests
           # alternatively, run `python -m pytest` if you are running vanilla pytest
           command: |
-            pipenv run test
-            pipenv run report
+            pipenv run test_coverage
+            # generates coverage.xml
+            pipenv run coverage xml
+      - codecov/upload
       - store_test_results:
           path: test-results
       - store_artifacts:

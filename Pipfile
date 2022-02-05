@@ -5,9 +5,8 @@ name = "pypi"
 
 [scripts]
 lint = "black ."
-# test = "python manage.py test"
-test = "coverage run --source='.' manage.py test"
-report = "coverage report"
+test = "python manage.py test"
+test_coverage = "coverage run --source='.' manage.py test"
 
 [packages]
 dj-database-url = "*"
