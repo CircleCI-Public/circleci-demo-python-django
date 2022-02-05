@@ -4,6 +4,22 @@ orbs:
   python: circleci/python@1.5.0
   codecov: codecov/codecov@3.2.2
 
+executors:
+  python3_10:
+    resource_class: small
+    docker:
+      - image: cimg/python:3.10.1
+  python3_10-postgres9_6:
+    resource_class: medium
+    docker:
+      - image: cimg/python:3.10.1
+        environment:
+          DATABASE_URL: postgresql://root@localhost/circle_test?sslmode=disable
+      - image: circleci/postgres:9.6.2
+        environment:
+          POSTGRES_USER: root
+          POSTGRES_DB: circle_test
+
 commands:
   setup:
     steps:
@@ -14,25 +30,27 @@ commands:
           args: '--dev'
 
 jobs:
-  build_and_test: # this can be any name you choose
-    docker:
-      - image: cimg/python:3.10.1
-        environment:
-          DATABASE_URL: postgresql://root@localhost/circle_test?sslmode=disable
-      - image: circleci/postgres:9.6.2
-        environment:
-          POSTGRES_USER: root
-          POSTGRES_DB: circle_test
+  lint:
+    executor: python3_10
     steps:
       - setup
       - run:
           name: Lint
           command: pipenv run lint --check
+  test: # this can be any name you choose
+    parameters:
+      split:
+        type: integer
+        default: 2
+    parallelism: << parameters.split >>
+    executor: python3_10-postgres9_6
+    steps:
+      - setup
       - run:
           name: Run tests
           # alternatively, run `python -m pytest` if you are running vanilla pytest
           command: |
-            pipenv run test_coverage
+            pipenv run test_coverage --parallel-mode
             # generates coverage.xml
             pipenv run coverage xml
       - store_test_results:
@@ -45,22 +63,24 @@ jobs:
           paths:
             - .
   combine_coverage:
-    resource_class: small
-    docker:
-      - image: cimg/python:3.10.1
+    executor: python3_10
     steps:
       - setup
       - attach_workspace:
           at: /tmp/workspace
+      - run:
+          name: Combine coverage reports (fan-in)
+          command: pipenv run coverage combine
       - codecov/upload
 
 workflows:
   on_commit:
     jobs:
-      - build_and_test
+      - lint
+      - test
       - combine_coverage:
           requires:
-            - build_and_test
+            - test
   nightly:
     triggers:
       - schedule:
@@ -70,7 +90,8 @@ workflows:
               only:
                 - master
     jobs:
-      - build_and_test
+      - lint
+      - test
       - combine_coverage:
           requires:
-            - build_and_test
+            - test
