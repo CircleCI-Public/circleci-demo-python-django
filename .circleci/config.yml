@@ -50,7 +50,14 @@ jobs:
           name: Run tests
           # alternatively, run `python -m pytest` if you are running vanilla pytest
           command: |
-            pipenv run test_coverage --parallel-mode
+            # get test files while ignoring __init__ files
+            TESTFILES=$(circleci tests glob "*/tests/*.py" | sed 's/\S\+__init__.py//g')
+            echo $TESTFILES | tr ' ' '\n' | sort | uniq > test_files.txt
+            TESTFILES=$(circleci tests split --split-by=timings test_files.txt | tr "/" "." | sed 's/\.py//g')
+            
+            echo "Debug: ${TESTFILES}"
+            
+            pipenv run test_coverage --parallel-mode --failfast $TESTFILES
             # generates coverage.xml
             pipenv run coverage xml
       - store_test_results:
