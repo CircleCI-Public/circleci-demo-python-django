@@ -8,7 +8,7 @@ You can follow along with this project by reading the [documentation](https://ci
 
 ## Features of the demo
 
-- regularly updated to use latest Python and Django (currently Python 3.6.4 and Django 2.0.1)
+- regularly updated to use latest Python and Django (currently Python 3.10.1 and Django 3.1.1)
 - uses [pipenv](http://pipenv.readthedocs.io/en/latest/) to install and manage dependencies and virtualenvs on CircleCI
 - shows usage of caching on CircleCI 2.0 to speed up builds. Makes use of Ppipfile.lock to invalidate cache if dependencies change
 - runs tests against a PostgreSQL database
