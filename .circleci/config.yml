@@ -1,7 +1,9 @@
 version: 2.1
+
 orbs:
   python: circleci/python@1.5.0
   heroku: circleci/heroku@1.2.6
+
 jobs:
   build_and_test: # this can be any name you choose
     docker:
@@ -16,6 +18,11 @@ jobs:
       - checkout
       - python/install-packages:
           pkg-manager: pipenv
+          # include installing dev dependencies
+          args: '--dev'
+      - run:
+          name: Lint
+          command: pipenv run black . --check
       - run:
           name: Run tests
           command: pipenv run python manage.py test # alternatively run `python -m pytest` if you are running vanilla pytest
