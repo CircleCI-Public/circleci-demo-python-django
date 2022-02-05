@@ -3,11 +3,6 @@ url = "https://pypi.python.org/simple"
 verify_ssl = true
 name = "pypi"
 
-[scripts]
-lint = "black ."
-test = "python manage.py test"
-test_coverage = "coverage run --source='.' manage.py test"
-
 [packages]
 dj-database-url = "*"
 django = "==3.1.1"

@@ -21,9 +21,8 @@ executors:
           POSTGRES_DB: circle_test
 
 commands:
-  setup:
+  install-deps:
     steps:
-      - checkout
       - python/install-packages:
           pkg-manager: pipenv
           # include installing dev dependencies
@@ -33,10 +32,11 @@ jobs:
   lint:
     executor: python3_10
     steps:
-      - setup
+      - checkout
+      - install-deps
       - run:
           name: Lint
-          command: pipenv run lint --check
+          command: pipenv run black . --check
   test: # this can be any name you choose
     parameters:
       split:
@@ -45,7 +45,8 @@ jobs:
     parallelism: << parameters.split >>
     executor: python3_10-postgres9_6
     steps:
-      - setup
+      - checkout
+      - install-deps
       - run:
           name: Run tests
           # alternatively, run `python -m pytest` if you are running vanilla pytest
@@ -54,30 +55,33 @@ jobs:
             TESTFILES=$(circleci tests glob "*/tests/*.py" | sed 's/\S\+__init__.py//g')
             echo $TESTFILES | tr ' ' '\n' | sort | uniq > test_files.txt
             TESTFILES=$(circleci tests split --split-by=timings test_files.txt | tr "/" "." | sed 's/\.py//g')
-            
-            echo "Debug: ${TESTFILES}"
-            
-            pipenv run test_coverage --parallel-mode --failfast $TESTFILES
-            # generates coverage.xml
-            pipenv run coverage xml
+            pipenv run coverage run --source='.' --parallel-mode \
+              manage.py test --failfast $TESTFILES
       - store_test_results:
           path: test-results
       - store_artifacts:
           path: test-results
           destination: tr1
+      # save coverage file to workspace
       - persist_to_workspace:
           root: ~/project
           paths:
-            - .
-  combine_coverage:
+            - .coverage*
+  fan-in_coverage:
     executor: python3_10
     steps:
-      - setup
+      - checkout
+      - install-deps
       - attach_workspace:
-          at: /tmp/workspace
+          at: ~/project
+      - run:
+          name: Debug
+          command: ls -a .coverage*
       - run:
           name: Combine coverage reports (fan-in)
-          command: pipenv run coverage combine
+          command: |
+            pipenv run coverage combine
+            pipenv run coverage xml
       - codecov/upload
 
 workflows:
@@ -85,7 +89,7 @@ workflows:
     jobs:
       - lint
       - test
-      - combine_coverage:
+      - fan-in_coverage:
           requires:
             - test
   nightly:
@@ -99,6 +103,6 @@ workflows:
     jobs:
       - lint
       - test
-      - combine_coverage:
+      - fan-in_coverage:
           requires:
             - test
