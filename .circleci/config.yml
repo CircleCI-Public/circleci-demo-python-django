@@ -45,6 +45,7 @@ jobs:
           paths:
             - .
   combine_coverage:
+    resource_class: small
     docker:
       - image: cimg/python:3.10.1
     steps:
