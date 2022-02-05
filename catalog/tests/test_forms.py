@@ -6,14 +6,14 @@ import datetime
 from django.utils import timezone
 from catalog.forms import RenewBookForm
 
-class RenewBookFormTest(TestCase):
 
+class RenewBookFormTest(TestCase):
     def test_renew_form_date_in_past(self):
         """
         Test form is invalid if renewal_date is before today
         """
         date = datetime.date.today() - datetime.timedelta(days=1)
-        form_data = {'renewal_date': date}
+        form_data = {"renewal_date": date}
         form = RenewBookForm(data=form_data)
         self.assertFalse(form.is_valid())
 
@@ -21,8 +21,12 @@ class RenewBookFormTest(TestCase):
         """
         Test form is invalid if renewal_date more than 4 weeks from today
         """
-        date = datetime.date.today() + datetime.timedelta(weeks=4) + datetime.timedelta(days=1)
-        form_data = {'renewal_date': date}
+        date = (
+            datetime.date.today()
+            + datetime.timedelta(weeks=4)
+            + datetime.timedelta(days=1)
+        )
+        form_data = {"renewal_date": date}
         form = RenewBookForm(data=form_data)
         self.assertFalse(form.is_valid())
 
@@ -31,31 +35,35 @@ class RenewBookFormTest(TestCase):
         Test form is valid if renewal_date is today
         """
         date = datetime.date.today()
-        form_data = {'renewal_date': date}
+        form_data = {"renewal_date": date}
         form = RenewBookForm(data=form_data)
         self.assertTrue(form.is_valid())
-        
+
     def test_renew_form_date_max(self):
         """
         Test form is valid if renewal_date is within 4 weeks
         """
         date = timezone.now() + datetime.timedelta(weeks=4)
-        form_data = {'renewal_date': date}
+        form_data = {"renewal_date": date}
         form = RenewBookForm(data=form_data)
         self.assertTrue(form.is_valid())
-        
-        
+
     def test_renew_form_date_field_label(self):
         """
         Test renewal_date label is "renewal date"
         """
-        form = RenewBookForm()        
-        self.assertTrue(form.fields['renewal_date'].label == None or form.fields['renewal_date'].label == 'renewal date')
-        
-        
+        form = RenewBookForm()
+        self.assertTrue(
+            form.fields["renewal_date"].label == None
+            or form.fields["renewal_date"].label == "renewal date"
+        )
+
     def test_renew_form_date_field_help_text(self):
         """
         Test renewal_date help_text is as expected.
         """
         form = RenewBookForm()
-        self.assertEqual(form.fields['renewal_date'].help_text,'Enter a date between now and 4 weeks (default 3).')
+        self.assertEqual(
+            form.fields["renewal_date"].help_text,
+            "Enter a date between now and 4 weeks (default 3).",
+        )
