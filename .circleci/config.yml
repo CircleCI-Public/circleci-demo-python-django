@@ -22,13 +22,13 @@ jobs:
           args: '--dev'
       - run:
           name: Lint
-          command: pipenv run black . --check
+          command: pipenv run lint --check
       - run:
           name: Run tests
           # alternatively, run `python -m pytest` if you are running vanilla pytest
           command: |
-            pipenv run coverage run --source='.' manage.py test
-            pipenv run coverage report
+            pipenv run test
+            pipenv run report
       - store_test_results:
           path: test-results
       - store_artifacts:
