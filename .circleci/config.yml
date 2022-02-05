@@ -2,8 +2,16 @@ version: 2.1
 
 orbs:
   python: circleci/python@1.5.0
-  # heroku: circleci/heroku@1.2.6
   codecov: codecov/codecov@3.2.2
+
+commands:
+  setup:
+    steps:
+      - checkout
+      - python/install-packages:
+          pkg-manager: pipenv
+          # include installing dev dependencies
+          args: '--dev'
 
 jobs:
   build_and_test: # this can be any name you choose
@@ -16,11 +24,7 @@ jobs:
           POSTGRES_USER: root
           POSTGRES_DB: circle_test
     steps:
-      - checkout
-      - python/install-packages:
-          pkg-manager: pipenv
-          # include installing dev dependencies
-          args: '--dev'
+      - setup
       - run:
           name: Lint
           command: pipenv run lint --check
@@ -31,7 +35,6 @@ jobs:
             pipenv run test_coverage
             # generates coverage.xml
             pipenv run coverage xml
-      - codecov/upload
       - store_test_results:
           path: test-results
       - store_artifacts:
@@ -41,29 +44,22 @@ jobs:
           root: ~/project
           paths:
             - .
- 
-  deploy: # this can be any name you choose
+  combine_coverage:
     docker:
       - image: cimg/python:3.10.1
     steps:
+      - setup
       - attach_workspace:
-          at: ~/project
-      - heroku/deploy-via-git: 
-          force: true # force push when pushing to the heroku remote, see: https://devcenter.heroku.com/articles/git
+          at: /tmp/workspace
+      - codecov/upload
 
 workflows:
   on_commit:
     jobs:
       - build_and_test
-      # Follow instructions here to authenticate git for Heroku: https://devcenter.heroku.com/articles/git#http-git-authentication
-      # The following code may be uncommented, onnce HEROKU_API_KEY & HEROKU_APP_NAME environemnt variables are present
-      # Read more: https://circleci.com/docs/2.0/env-vars/
-      # - deploy:
-      #     requires:
-      #       - build_and_test # only deploy if the build_and_test job has completed
-      #     filters:
-      #       branches:
-      #         only: master # only deploy when on main/master
+      - combine_coverage:
+          requires:
+            - build_and_test
   nightly:
     triggers:
       - schedule:
@@ -74,12 +70,6 @@ workflows:
                 - master
     jobs:
       - build_and_test
-      # Follow instructions here to authenticate git for Heroku: https://devcenter.heroku.com/articles/git#http-git-authentication
-      # The following code may be uncommented, onnce HEROKU_API_KEY & HEROKU_APP_NAME environemnt variables are present
-      # Read more: https://circleci.com/docs/2.0/env-vars/
-      # - deploy:
-      #     requires:
-      #       - build_and_test # only deploy if the build_and_test job has completed
-      #     filters:
-      #       branches:
-      #         only: master # only deploy when on main/master
+      - combine_coverage:
+          requires:
+            - build_and_test
