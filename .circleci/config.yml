@@ -25,7 +25,10 @@ jobs:
           command: pipenv run black . --check
       - run:
           name: Run tests
-          command: pipenv run python manage.py test # alternatively run `python -m pytest` if you are running vanilla pytest
+          # alternatively, run `python -m pytest` if you are running vanilla pytest
+          command: |
+            pipenv run coverage run --source='.' manage.py test
+            pipenv run coverage report
       - store_test_results:
           path: test-results
       - store_artifacts:
