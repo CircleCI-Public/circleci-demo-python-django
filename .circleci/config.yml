@@ -1,43 +1,118 @@
 version: 2.1
+
+test-names: &test-names
+  - mocha:unit:ci
+  - mocha:unit:rateplan
+  - test:billing-service-integration
+
 orbs:
-  slack: circleci/slack@4.6.1
-  run-with-retry: kimh/run-with-retry@1.0.0  
-#test
+  slack: circleci/slack@4.12
+
+parameters:
+  service_name:
+    default: "my-awesome-service"
+    type: string
+
+  dev_channels:
+    default: "slack-notify-test"
+    type: string
+
+  staging_channels:
+    default: "slack-notify-test"
+    type: string
+
+  prodcopy_channels:
+    default: "slack-notify-test"
+    type: string
+
+  prod_channels:
+    default: "slack-notify-test"
+    type: string
+
+  environment:
+    default: "prod"
+    type: string
+
 jobs:
-  build:
-    working_directory: ~/circleci-demo-python-django
+  deploy:
     docker:
-      - image: cimg/base:2020.01
+      - image: 'cimg/base:stable'
+    resource_class: hippo/k8s-small
+    parameters:
+      test-name:
+        type: string
     steps:
-      - restore_cache:
-          keys:
-          - v{{ .Environment.CIRCLE_CACHE_VERSION }}-git-{{ .Branch }}-{{ .Revision }}
-      - checkout
-#       - save_cache:
-#           key: v{{ .Environment.CIRCLE_CACHE_VERSION }}-git-{{ .Branch }}-{{ .Revision }}
-#           paths:
-#           - .git
+      - run:
+          name: "Simple echo"
+          command: |
+            pwd
+            echo "Testing Slack notification."
+            echo "Test name: << parameters.test-name >>"
+      - slack/notify:
+          step_name: "Send Slack - Failure"
+          channel: "slack-notify-test, "
+          event: fail
+          template: basic_fail_1
+      - slack/notify:
+          step_name: "Send Slack - Success"
+          channel: "slack-notify-test, "
+          custom: |
+            {
+              "blocks": [
+                {
+                  "type": "header",
+                  "text": {
+                      "type": "plain_text",
+                      "text": ":white_check_mark: Success to deploy << parameters.test-name >> to << pipeline.parameters.environment >>",
+                      "emoji": true
+                  }
+                },
+                {
+                  "type": "actions",
+                  "elements": [
+                    {
+                      "type": "button",
+                      "text": {
+                        "text": "View Deployment Job",
+                        "type": "plain_text"
+                      },
+                      "url": "${CIRCLE_BUILD_URL}"
+                    }
+                  ]
+                }
+              ]
+            }
+          event: pass
   test:
-    working_directory: ~/circleci-demo-python-django
     docker:
-      - image: cimg/base:2020.01
+      - image: 'cimg/base:stable'
     steps:
-      - restore_cache:
-          keys:
-          - v{{ .Environment.CIRCLE_CACHE_VERSION }}-git-{{ .Branch }}-{{ .Revision }}
-      - checkout
-#       - save_cache:
-#           key: v{{ .Environment.CIRCLE_CACHE_VERSION }}-git-{{ .Branch }}-{{ .Revision }}
-#           paths:
-#           - .git
-
-
-
+      - run: 
+          command: |
+            echo "test my app"
+            echo "export ENV_NAME=staging" >> $BASH_ENV
 
 workflows:
-  my_workflow:
+  test-and-deploy:
     jobs:
-      - build
       - test
+      - slack/on-hold:
+          channel: 'slack-notify-test'
+          context: slack-secrets
+          requires:
+            - test
+      - pause_workflow:
+          requires:
+            - test
+            - slack/on-hold
+          type: approval
+      - deploy:
+          matrix:
+            alias: "Test name"
+            parameters: 
+              test-name: *test-names
+          context: slack-secrets
+          requires:
+            - pause_workflow
  
 
